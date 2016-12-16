@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="col-md-9">
+		<table class="table table-bordered table-responsive">
+			<tr>
+				<th>Name</th>
+				<th>Address</th>
+				<th>North</th>
+				<th>East</th>
+				<th>Action</th>
+			</tr>
+			<tr ng-repeat="busstop in BusStopTableCtrl.busstops">
+				<td ng-if="!busstop.edit">{{busstop.name}}</td>
+				<td ng-if="busstop.edit"><input ng-model="busstop.name" type="text" 
+					class="form-control"></td>
+				
+				<td ng-if="!busstop.edit">{{busstop.address}}</td>
+				<td ng-if="busstop.edit"><input ng-model="busstop.address" type="text" 
+					class="form-control"></td>
+					
+				<td ng-if="!busstop.edit">{{busstop.location.north}}</td>
+                <td ng-if="busstop.edit"><input ng-model="busstop.location.north" type="number" class="form-control"></td>
+
+                <td ng-if="!busstop.edit">{{busstop.location.east}}</td>
+                <td ng-if="busstop.edit"><input ng-model="busstop.location.east" type="number" class="form-control"></td>
+				
+				<td><!--
+					<button ng-if="!busstop.edit" ng-click="BusStopTableCtrl.setBusStopToEdit(busstop)"
+						type="button" class="btn btn-warning">Edit</button>
+					<button ng-if="busstop.edit" ng-click="BusStopTableCtrl.editBusStop(busstop)"
+						type="button" class="btn btn-success">Apply</button>
+					<button ng-click="BusStopTableCtrl.deleteBusStop(busstop)" type="button"
+						class="btn btn-danger">Delete</button> -->
+				</td>
+					
+			
+			</tr>
+			
+		</table>
+	</div>
+	<!--
+	<div ng-click=BusStopTableCtrl.showRegistrationModal() class="col-md-1">
+		<button type="button" class="btn btn-primary">Add busstop</button>
+	</div> -->
+</div>
