@@ -2,44 +2,39 @@ angular.module('com.mpk.busstoptable').controller(
 		'BusStopTableController',
 		function($window,busstoptableService) {
 			var self = this;
+			self.busstop={};
 			self.busstops={};
-			self.getBusStops = function(){
-				busstoptableService.getBusStops().then(function(response){
+			self.getBusstops = function(){
+				busstoptableService.getBusstops().then(function(response){
 					self.busstops=response;
 				})
 			}
-			self.getBusStops();
-			
-			
-//			self.users={};
-//			self.getUsers = function(){
-//				usersService.getUsers().then(function(response){
-//					self.users=response;
-//				})
-//			}
-//			self.getUsers();
-//			self.showRegistrationModal = function(){
-//				navigationService.showRegistrationModal();
-//			}
-//			self.closeRegistrationModal = function(){
-//				navigationService.closeRegistrationModal();
-//			}
-//			self.setUserToEdit = function(user){
-//				user.edit=true;
-//			}
-//			self.editUser = function(user){
-//				usersService.editUser(user).then(function(response){
-//					user.edit=false;
-//				})
-//			}
-//			self.deleteUser = function(user){
-//				usersService.deleteUser(user).then(function(response){
-//					$window.location.reload();
-//				})
-//			}
-//			self.setRole = function(user,role){
-//				usersService.setRole(user,role).then(function(response){
-//					$window.location.reload();
-//				})
-//			}
+			self.getBusstops();
+	
+			self.setBusstopToEdit = function(busstop){
+				busstop.edit = true;
+			}
+			self.editBusstop = function(busstop){
+				busstoptableService.editBusstop(busstop).then(function(response){
+					busstop.edit=false;
+				})
+			}
+			self.showBusstopAdd = function(){
+				busstoptableService.showBusstopAdd();
+			}
+			self.closeBusstopAdd = function(){
+				busstoptableService.closeBusstopAdd();
+			}
+			self.deleteBusstop = function(busstop){
+				busstoptableService.deleteBusstop(busstop).then(function(response){
+					$window.location.reload();
+				})
+			}
+			self.addBusstop = function(){			
+				busstoptableService.addBusstop(self.busstop).then(function(response){
+					busstoptableService.closeBusstopAdd();
+					$window.location.reload();
+				});
+			}
+
 		});

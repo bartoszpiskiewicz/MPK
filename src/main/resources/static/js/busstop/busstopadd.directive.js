@@ -3,5 +3,7 @@ angular.module('com.mpk.busstopadd', [])
   return {
     restrict: 'E',
     templateUrl: 'views/busstop/busstopadd.html',
+    controller: 'BusStopTableController',
+    controllerAs: 'BusStopTableCtrl',
   };
 });

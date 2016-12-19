@@ -43,10 +43,12 @@ angular
 						logout : function() {
 							$http.post('logout', {}).then(function() {
 								$rootScope.authenticated = false;
+								$location.path('homepage');
 								$window.location.reload();	
 							}, function() {
 								$rootScope.authenticated = false;
-								$window.location.reload();
+								$location.path('homepage');
+								$window.location.reload();	
 							});
 						},
 						showRegistrationModal : function() {

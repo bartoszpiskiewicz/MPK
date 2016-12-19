@@ -29,8 +29,8 @@ public class RouteController {
     }
 
     @GetMapping("/{busLineId}/routes")
-    public List<RouteHelper> getAllRoutes(@PathVariable Long busLineId) {
-        return routeService.findAllByBusLine(busLineId);
+    public RouteHelper getAllRoutes(@PathVariable Long busLineId) {
+        return routeService.findByBusLine(busLineId);
     }
 
 //    @GetMapping("/{busLineId}/routes/{routeId}")

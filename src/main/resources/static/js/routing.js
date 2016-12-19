@@ -49,6 +49,11 @@
 					url: '/buses',
 					template:'<buses></buses>'
 				})
+			.state('drivers',
+				{
+					url: '/drivers',
+					template:'<drivers></drivers>'
+				})
 			.state('busstoptable',
 				{
 					url: '/busstoptable',

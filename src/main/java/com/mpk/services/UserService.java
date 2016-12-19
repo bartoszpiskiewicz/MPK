@@ -35,8 +35,21 @@ public class UserService {
 		return userHelpers;
 	}
 
+	public List<UserHelper> getUsersNotDrivers() {
+		List<User> users = userRepo.findAll();
+		List<UserHelper> userHelpers = new ArrayList<>();
+		for (User u : users) {
+			u.setPassword(null);
+			if (u.getDriver() == null) {
+				userHelpers.add(new UserHelper(u));
+			}
+		}
+		return userHelpers;
+	}
+
 	public UserHelper findById(Long id) {
 		User user = userRepo.findOne(id);
+		user.setPassword(null);
 		ExceptionFactory.throwNotFoundExceptionIfNull(user, User.class);
 		return new UserHelper(user);
 	}

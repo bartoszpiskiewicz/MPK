@@ -15,6 +15,8 @@
         'com.mpk.adminpanel',
         'com.mpk.users',
         'com.mpk.buses',
+        'com.mpk.drivers',
+        'com.mpk.buses',
         'com.mpk.busstoptable'
     ]);
 }());

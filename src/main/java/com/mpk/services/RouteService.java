@@ -12,39 +12,39 @@ import com.mpk.excepctions.ExceptionFactory;
 import com.mpk.excepctions.RouteNotFoundException;
 import com.mpk.helpers.BusStopInRouteHelper;
 import com.mpk.helpers.RouteHelper;
+import com.mpk.services.timetable.TimetableAtBusStopFlyweight;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 @Service
-public class RouteService {
+public class RouteService extends Observable {
     private RouteRepository routeRepository;
     private BusLineRepository busLineRepository;
     private BusStopRepository busStopRepository;
     @Autowired
-    public RouteService(RouteRepository routeRepository, BusLineRepository busLineRepository, BusStopRepository busStopRepository) {
+    public RouteService(RouteRepository routeRepository, BusLineRepository busLineRepository, BusStopRepository busStopRepository, TimetableAtBusStopFlyweight timetableAtBusStopFlyweight) {
         this.routeRepository = routeRepository;
         this.busLineRepository = busLineRepository;
         this.busStopRepository = busStopRepository;
+        this.addObserver(timetableAtBusStopFlyweight);
     }
 
-    public List<RouteHelper> findAllByBusLine(Long busLineId) {
+    public RouteHelper findByBusLine(Long busLineId) {
         BusLine busLine = busLineRepository.findOne(busLineId);
         ExceptionFactory.throwNotFoundExceptionIfNull(busLine, BusLine.class);
         List<Route> routes = routeRepository.findByBusLine(busLine);
-        List<RouteHelper> routeHelpers = new ArrayList<>();
-        for (Route r : routes) {
-            RouteHelper routeHelper = new RouteHelper();
-            routeHelper.setId(r.getId());
-            routeHelper.setBusStops(fetchBusStopsInHelpers(r.getRouteBusStops()));
-            routeHelpers.add(routeHelper);
-        }
-        return routeHelpers;
+        Route r = routes.get(0);
+        RouteHelper routeHelper = new RouteHelper();
+        routeHelper.setId(r.getId());
+        routeHelper.setBusStops(fetchBusStopsInHelpers(r.getRouteBusStops()));
+        return routeHelper;
     }
-
+//
 //    public RouteHelper findById(Long routeId) {
 //        Route route = routeRepository.findOne(routeId);
 //        ExceptionFactory.throwNotFoundExceptionIfNull(route);
@@ -60,6 +60,7 @@ public class RouteService {
         Route route = new Route();
         route.setRouteBusStops(getRouteBusStops(routeHelper.getBusStops()));
         routeRepository.save(route);
+        this.notifyObservers();
     }
 
     public void update(Long busLineId, RouteHelper routeHelper) {
@@ -71,12 +72,14 @@ public class RouteService {
         route.setRouteBusStops(getRouteBusStops(routeHelper.getBusStops()));
         routeRepository.save(route);
         busLineRepository.save(busLine);
+        this.notifyObservers();
     }
 
     public void delete(Long routeId) {
         Route route = routeRepository.findOne(routeId);
         ExceptionFactory.throwNotFoundExceptionIfNull(route, Route.class);
         routeRepository.delete(route);
+        this.notifyObservers();
     }
 
     private List<RouteBusStop> getRouteBusStops(List<BusStopInRouteHelper> busStops) {

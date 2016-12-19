@@ -32,6 +32,11 @@ public class UserController {
 	public List<UserHelper> getAll() {
 		return userService.getAll();
 	}
+	
+	@GetMapping("notDriver")
+	public List<UserHelper> getUsersNotDrivers() {
+		return userService.getUsersNotDrivers();
+	}
 
 	@GetMapping("{userId}")
 	public UserHelper getById(@PathVariable Long userId) {

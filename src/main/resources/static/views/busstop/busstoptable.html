@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-9">
+	<div class="col-md-5">
 		<table class="table table-bordered table-responsive">
 			<tr>
 				<th>Name</th>
@@ -23,13 +23,13 @@
                 <td ng-if="!busstop.edit">{{busstop.location.east}}</td>
                 <td ng-if="busstop.edit"><input ng-model="busstop.location.east" type="number" class="form-control"></td>
 				
-				<td><!--
-					<button ng-if="!busstop.edit" ng-click="BusStopTableCtrl.setBusStopToEdit(busstop)"
+				<td>
+					<button ng-if="!busstop.edit" ng-click="BusStopTableCtrl.setBusstopToEdit(busstop)"
 						type="button" class="btn btn-warning">Edit</button>
-					<button ng-if="busstop.edit" ng-click="BusStopTableCtrl.editBusStop(busstop)"
+					<button ng-if="busstop.edit" ng-click="BusStopTableCtrl.editBusstop(busstop)"
 						type="button" class="btn btn-success">Apply</button>
-					<button ng-click="BusStopTableCtrl.deleteBusStop(busstop)" type="button"
-						class="btn btn-danger">Delete</button> -->
+					<button ng-click="BusStopTableCtrl.deleteBusstop(busstop)" type="button"
+						class="btn btn-danger">Delete</button> 
 				</td>
 					
 			
@@ -37,8 +37,8 @@
 			
 		</table>
 	</div>
-	<!--
-	<div ng-click=BusStopTableCtrl.showRegistrationModal() class="col-md-1">
+	
+	<div ng-click=BusStopTableCtrl.showBusstopAdd() class="col-md-1">
 		<button type="button" class="btn btn-primary">Add busstop</button>
-	</div> -->
+	</div>
 </div>

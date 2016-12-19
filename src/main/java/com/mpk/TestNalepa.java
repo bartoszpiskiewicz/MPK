@@ -122,6 +122,7 @@ public class TestNalepa implements InitializingBean {
     private void addBusStop(){
     	 List<BusStop> busstops = new ArrayList<>();
     	 busstops.add(BusStop.builder().name("Slichowice").address("Slichowice 203").location(Coordinates.builder().east(50.0).north(50.0).build()).build());
+    	 busstops.add(BusStop.builder().name("Swietokrzyskie").address("5/2").location(Coordinates.builder().east(34.0).north(44.3).build()).build());
     	 busStopRepository.save(busstops);
     }
 

@@ -10,4 +10,3 @@ spring:
   data:
     rest:
       base-path: /api
-#main master      

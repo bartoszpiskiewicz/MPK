@@ -2,17 +2,19 @@ package com.mpk.services;
 
 import com.mpk.dao.BusStopTimesRepository;
 import com.mpk.entity.BusStopTimes;
+import com.mpk.services.timetable.TimetableAtBusStopFlyweight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Service
-public class TimeHolderImpl implements TimeHolder {
+public class TimeHolderImpl extends Observable implements TimeHolder {
 
     private ReadWriteLock lock;
     private BusStopTimesRepository busStopTimesRepository;
@@ -20,10 +22,11 @@ public class TimeHolderImpl implements TimeHolder {
 
 
     @Autowired
-    public TimeHolderImpl(BusStopTimesRepository busStopTimesRepository) {
+    public TimeHolderImpl(BusStopTimesRepository busStopTimesRepository, TimetableAtBusStopFlyweight timetableAtBusStopFlyweight) {
         this.busStopTimesRepository = busStopTimesRepository;
         this.times = new ArrayList<>();
         this.lock = new ReentrantReadWriteLock();
+        this.addObserver(timetableAtBusStopFlyweight);
         this.initialize();
     }
 
@@ -46,6 +49,7 @@ public class TimeHolderImpl implements TimeHolder {
             busStopTimesRepository.save(time);
         }
         lock.writeLock().unlock();
+        this.notifyObservers();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class TimeHolderImpl implements TimeHolder {
         this.busStopTimesRepository.delete(time.getId());
         this.times.remove(time);
         lock.writeLock().unlock();
+        this.notifyObservers();
     }
 
     private void initialize(){
